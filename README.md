@@ -19,11 +19,12 @@ cd rest_go_quotation
 
 ### 3. Сборка контейнера и запуск приложения
 *Требуется установка [docker](https://www.docker.com/products/docker-desktop/), если не установлен, смотрите [зависимости.](https://github.com/voronkov44/rest_go_quotation?tab=readme-ov-file#%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-docker)*
-Сборка контейнера
+
+Сборка контейнера:
 ```bash
 docker build -t quotation-book:v1 .
 ```
-Запуск контейнера
+Запуск контейнера:
 ```bash
 docker run -d -p 8081:8081 --name quotation-book quotation-book:v1
 ```
