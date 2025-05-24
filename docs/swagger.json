@@ -1,0 +1,258 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "API для работы с цитатами. Позволяет создавать, получать, удалять цитаты.",
+        "title": "Quotation Book API",
+        "contact": {
+            "name": "Andrew Voronkov",
+            "email": "voronkovworkemail@gmail.com"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8081",
+    "basePath": "/",
+    "paths": {
+        "/quotes": {
+            "get": {
+                "description": "Возвращает список всех цитат",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "quotes"
+                ],
+                "summary": "Получить все цитаты",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/internal_quotation.Quotation"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Добавляет новую цитату в список",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "quotes"
+                ],
+                "summary": "Создать цитату",
+                "parameters": [
+                    {
+                        "description": "Цитата для добавления",
+                        "name": "quote",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/internal_quotation.CreateQuotationRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/internal_quotation.CreateQuotationResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/quotes/author/{author}": {
+            "get": {
+                "description": "Возвращает все цитаты указанного автора",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "quotes"
+                ],
+                "summary": "Получить цитаты по автору",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Автор цитаты",
+                        "name": "author",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/internal_quotation.Quotation"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/quotes/random": {
+            "get": {
+                "description": "Возвращает случайную цитату из списка",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "quotes"
+                ],
+                "summary": "Получить случайную цитату",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/internal_quotation.Quotation"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/quotes/{id}": {
+            "delete": {
+                "description": "Удаляет цитату по ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "quotes"
+                ],
+                "summary": "Удалить цитату",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID цитаты",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "internal_quotation.CreateQuotationRequest": {
+            "type": "object",
+            "properties": {
+                "author": {
+                    "type": "string",
+                    "example": "Sun Tzu"
+                },
+                "quote": {
+                    "type": "string",
+                    "example": "Appear weak when you are strong, and strong when you are weak."
+                }
+            }
+        },
+        "internal_quotation.CreateQuotationResponse": {
+            "type": "object",
+            "properties": {
+                "author": {
+                    "type": "string",
+                    "example": "Sun Tzu"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "quote": {
+                    "type": "string",
+                    "example": "Appear weak when you are strong, and strong when you are weak."
+                }
+            }
+        },
+        "internal_quotation.Quotation": {
+            "type": "object",
+            "properties": {
+                "author": {
+                    "type": "string",
+                    "example": "Sun Tzu"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "quote": {
+                    "type": "string",
+                    "example": "Appear weak when you are strong, and strong when you are weak."
+                }
+            }
+        }
+    }
+}
